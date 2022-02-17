@@ -13,19 +13,24 @@ class SwagCustomDoc extends Plugin
         /** @var Connection $connection */
         $connection = $this->container->get(Connection::class);
 
-        $exitDocType = $connection->fetchOne('SELECT * FROM document_type WHERE technical_name =:techName',
+        $exitDocType = $connection->fetchOne('SELECT `id` FROM document_type WHERE technical_name =:techName',
             [
                 'techName' => 'custom_doc',
             ]);
 
-        $exitDoc = $connection->fetchOne('SELECT * FROM document WHERE document_type_id =:docTypeId',
+        $exitDoc = $connection->fetchOne('SELECT `id` FROM document WHERE document_type_id =:docTypeId',
             [
                 'docTypeId' => $exitDocType,
             ]);
 
-        if ($exitDoc) {
+        if (!$exitDoc) {
             return;
         }
+
+        $connection->executeStatement('DELETE FROM document WHERE document_type_id =:documentTypeId ',
+            [
+                'documentTypeId' => $exitDocType,
+            ]);
 
         $connection->executeStatement('DELETE FROM document_type WHERE technical_name =:techName ',
         [

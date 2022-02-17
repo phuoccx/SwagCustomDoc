@@ -11,7 +11,7 @@ use Shopware\Core\Framework\Context;
 
 class CustomDocumentGenerator implements DocumentGeneratorInterface
 {
-    public const DEFAULT_TEMPLATE = '@SwagCustomDoc/documents/custom_document.html.twig';
+    public const DEFAULT_TEMPLATE = '@SwagCustomDoc/documents/base.html.twig';
     public const EXAMPLE_DOC = 'custom_doc';
 
     private string $rootDir;
